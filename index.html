@@ -18,7 +18,7 @@ nav button{background:none;border:0;border-bottom:2px solid transparent;color:va
 nav button[aria-current=true]{border-color:var(--fg)}
 nav input{margin-left:auto;flex:1 1 180px;max-width:300px;background:#000;border:1px solid var(--rule);color:var(--fg);font:inherit;font-size:16px;padding:6px 10px}
 :focus-visible{outline:2px solid var(--link);outline-offset:2px}
-.choose{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0 4px}
+.choose{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:22px 0 4px}
 .choose button{background:#000;color:var(--fg);border:1px solid var(--fg);font:inherit;font-weight:700;padding:14px 10px;cursor:pointer}
 .choose button:hover{background:var(--fg);color:#000}
 .cols{display:grid;grid-template-columns:1fr 2fr 1fr;margin-top:24px}
@@ -49,6 +49,14 @@ footer{margin-top:40px;padding-top:12px;border-top:3px double var(--rule);text-a
 .choose{grid-template-columns:1fr}
 nav input{margin-left:0;max-width:none}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.page figure{margin:22px 0}
+.page img{display:block;max-width:100%;height:auto}
+.page h3{font-size:24px;line-height:1.25;margin:1.6em 0 .5em}
+.page ul,.page ol{padding-left:1.2em;margin:0 0 1.1em}
+.page li{margin-bottom:.8em}
+.page blockquote{margin:0 0 1.1em;padding-left:16px;border-left:2px solid var(--rule);font-style:italic}
+.fila{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0}
+.fila figure{flex:1 1 150px;margin:0}
 </style>
 </head>
 <body>
@@ -67,34 +75,9 @@ nav input{margin-left:0;max-width:none}}
 <main id="app"></main>
 <footer id="pie"></footer>
 </div>
+<script src="contenido.js"></script>
 <script>
-/* ===== CONTENIDO: edita aquí tu nombre, tu historia, tus escritos y tus fotos ===== */
-const SITE={
-  name:"Nubee",
-  tagline:"Escritos, capítulos e historias en imágenes",
-  about:[
-    "Aquí va la breve historia de este lugar: quién escribe, por qué nació este espacio y qué encontrará el lector al entrar.",
-    "Cuéntale al lector de qué trata tu libro y qué puede esperar de cada sección. Este texto es un ejemplo para que lo reemplaces."
-  ]
-};
-const W=[
-  {id:1,cat:"Capítulo",date:"2026-11-15",title:"Título del primer capítulo",
-   excerpt:"Aquí va el comienzo del primer capítulo de tu libro. Reemplaza este texto de ejemplo con el tuyo.",
-   body:["Este es un párrafo de ejemplo del capítulo. Cada elemento de esta lista es un párrafo, así que puedes agregar tantos como necesites.","Un segundo párrafo, para que veas cómo se lee un escrito completo dentro de la página."]},
-  {id:2,cat:"Reflexión",date:"2026-11-08",title:"Una reflexión de la semana",
-   excerpt:"Un texto corto, personal, que no pertenece al libro pero lo acompaña.",
-   body:["Texto de ejemplo para una reflexión. Escribe aquí lo que quieras compartir con tus lectores."]},
-  {id:3,cat:"Detrás del libro",date:"2026-11-01",title:"Cómo nació esta historia",
-   excerpt:"El origen de la idea, los primeros borradores y lo que aprendiste en el camino.",
-   body:["Texto de ejemplo sobre el origen de tu libro.","Puedes usar esta sección para contar el proceso de escritura."]}
-];
-const P=[
-  {id:1,date:"2026-11-12",title:"Título de la primera foto",img:"",caption:"Una línea que acompaña la foto.",
-   story:["Aquí va la historia detrás de esta foto: dónde fue tomada, quién aparece y por qué importa.","Para mostrar tu foto real, pon la imagen en el campo img de esta entrada."]},
-  {id:2,date:"2026-11-05",title:"Otra imagen, otra historia",img:"",caption:"Cada foto viene con su propio relato.",story:["Historia de ejemplo para la segunda foto."]},
-  {id:3,date:"2026-10-28",title:"Un lugar que recuerdo",img:"",caption:"Fotografía y memoria, juntas.",story:["Historia de ejemplo para la tercera foto."]}
-];
-/* ===== FIN DEL CONTENIDO ===== */
+
 
 const app=document.getElementById('app'),qi=document.getElementById('q');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -113,21 +96,21 @@ const views={
   <div class="cols">
    <div class="col"><h2 class="sec">La historia</h2>${ps(SITE.about)}</div>
    <div class="col">${wBtn(W[0],'lead')}${W.slice(1,3).map(w=>`<div class="sub">${wBtn(w)}</div>`).join('')}</div>
-   <div class="col"><h2 class="sec">En fotos</h2>${pBtn(P[0])}</div>
+   <div class="col">${P.length?`<h2 class="sec">En fotos</h2>${pBtn(P[0])}`:`<h2 class="sec">Más escritos</h2>${W.slice(3,6).map((w,i)=>i?`<div class="sub">${wBtn(w)}</div>`:wBtn(w)).join('')}`}</div>
   </div>`;
  },
  writings(){
   const q=norm(S.q.trim());
-  const l=W.filter(w=>!q||norm(w.title+' '+w.excerpt+' '+w.cat+' '+w.body.join(' ')).includes(q));
+  const l=W.filter(w=>!q||norm(w.title+' '+w.excerpt+' '+w.cat+' '+w.html.replace(/<[^>]+>/g,' ')).includes(q));
   const head=q?`<p class="note">${l.length} resultado${l.length===1?'':'s'} para “${esc(S.q.trim())}”</p>`:'';
   const empty=l.length?'':`<p class="note">No encontré escritos con esa búsqueda. Prueba con otra palabra o borra el texto del buscador.</p>`;
   return `${head}${empty}<div class="grid">${l.map(w=>`<div class="item">${wBtn(w)}</div>`).join('')}</div>`;
  },
- photos(){return `<div class="grid">${P.map(p=>`<div class="item">${pBtn(p)}</div>`).join('')}</div>`;},
+ photos(){return P.length?`<div class="grid">${P.map(p=>`<div class="item">${pBtn(p)}</div>`).join('')}</div>`:`<div class="page"><p class="note">Aquí aparecerán las fotos, cada una con su propia historia. Por ahora no hay ninguna publicada.</p></div>`;},
  about(){return `<div class="page"><h2>La historia</h2>${ps(SITE.about)}</div>`;},
  writing(){
   const w=W.find(x=>x.id===S.id);
-  return `<div class="page"><button class="back" data-go="writings">Volver a los escritos</button><div class="meta" style="margin-top:14px">${esc(w.cat)}, ${fmt(w.date)}</div><h2>${esc(w.title)}</h2>${ps(w.body)}</div>`;
+  return `<div class="page"><button class="back" data-go="writings">Volver a los escritos</button><div class="meta" style="margin-top:14px">${esc(w.cat)}, ${fmt(w.date)}</div><h2>${esc(w.title)}</h2>${w.html}</div>`;
  },
  photo(){
   const p=P.find(x=>x.id===S.id);

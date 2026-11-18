@@ -99,9 +99,8 @@ const W=[
  }
 ];
 const P=[
-  {id:1,date:"2026-11-12",title:"Título de la primera foto",img:"",caption:"Una línea que acompaña la foto.",
-   story:["Aquí va la historia detrás de esta foto: dónde fue tomada, quién aparece y por qué importa.","Para mostrar tu foto real, pon la imagen en el campo img de esta entrada."]},
-  {id:2,date:"2026-11-05",title:"Otra imagen, otra historia",img:"",caption:"Cada foto viene con su propio relato.",story:["Historia de ejemplo para la segunda foto."]},
-  {id:3,date:"2026-10-28",title:"Un lugar que recuerdo",img:"",caption:"Fotografía y memoria, juntas.",story:["Historia de ejemplo para la tercera foto."]}
+  /* Cuando quieras publicar fotos, agrega aquí entradas como esta:
+  {id:1,date:"2026-11-12",title:"Título de la foto",img:"fotos/foto1.jpg",caption:"Una línea que acompaña la foto.",story:["La historia detrás de la foto."]},
+  */
 ];
 /* ===== FIN DEL CONTENIDO ===== */
