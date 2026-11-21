@@ -10,6 +10,15 @@ const SITE={
 };
 const W=[
  {
+  "id": 12,
+  "cat": "Poema",
+  "tipo": "poema",
+  "date": "2026-11-20",
+  "title": "Nocturno de cuerdas flojas",
+  "excerpt": "En la sombra lenta de una noche quieta, donde la luz de luna cae como ceniza fría, suenan melodías en un corazón de cuerdas flojas…",
+  "html": "<p>En la sombra lenta de una noche quieta, donde la luz de luna cae como ceniza fría, suenan melodías en un corazón de cuerdas flojas... donde alguna vez hubo una afinación armónica que vibraba limpia, entera, viva, y hoy duerme cubierta de polvo.</p><p>El tiempo pasa —sin prisa, sin piedad, sin esperar—, dejando que las cuerdas cedan, que la nota se vuelva un murmullo apenas rozado, un eco que cae en la penumbra como gotas lentas sobre un piano apagado, mientras la sombra alarga todo aquello que ya no está.</p><p>No vuelve atrás la hora que se fue; la música se deshace despacio, y el silencio ocupa el lugar de aquello que antes cantaba sin esfuerzo, como un arpegio que se apaga antes de llegar al final.</p><p>A veces recuerdo por qué empecé a tocar, y al recordarlo, me quedo quieto, en un silencio hondo, mirando a la nada... mientras deslizo lentamente la mano por las cuerdas, por milésima vez, dejando que la noche escuche lo que queda, y que el recuerdo siga doliendo tan suave, tan lejos, tan nuestro, como la última nota de una canción que nadie más oye.</p>"
+ },
+ {
   "id": 1,
   "cat": "Homenaje",
   "date": "2026-11-09",
@@ -20,6 +29,7 @@ const W=[
  {
   "id": 2,
   "cat": "Prosa poética",
+  "tipo": "poema",
   "date": "2026-09-01",
   "title": "La esperanza que me mata y me salva",
   "excerpt": "Eres hermosa, la más hermosa de todas las cosas creadas por Dios. Y sin embargo, hoy solo me quedan los ecos de tu voz, resonando como un murmullo distante que me llega desde el Olimpo o desde la…",
@@ -60,6 +70,7 @@ const W=[
  {
   "id": 7,
   "cat": "Prosa poética",
+  "tipo": "poema",
   "date": "2026-07-19",
   "title": "The Landscape of Souls",
   "excerpt": "It is infinitely more sincere to discover a good love in the immensity of a meadow than in the cold echo of a quarry. In both scenarios, the eyes look with a different light.",
@@ -68,6 +79,7 @@ const W=[
  {
   "id": 8,
   "cat": "Prosa poética",
+  "tipo": "poema",
   "date": "2026-07-17",
   "title": "La Condena de la Carne",
   "excerpt": "I begged so many times for the insensitivity of minerals. I wanted the stillness of the marble, the arrogance of the iron, the icy peace of the ruins where the wind passes without hurting anything. I…",
@@ -84,6 +96,7 @@ const W=[
  {
   "id": 10,
   "cat": "Prosa poética",
+  "tipo": "poema",
   "date": "2026-07-16",
   "title": "The confession he owed me",
   "excerpt": "I have to admit something to you, and I no longer care how fucked up it sounds to say it out loud.",
