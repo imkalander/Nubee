@@ -4,7 +4,7 @@
    Cada texto entre comillas es un párrafo. Estas cartas no aparecen en la portada,
    ni en las listas, ni en el buscador: solo se ven al tocar el nombre «Nubee». */
 const SECRETO={
-  titulo:"Roma Ali",
+  titulo:"Roma",
   intro:"",
   cartas:[
     {id:1, titulo:"Carta de ejemplo", fecha:"2026-11-22",
