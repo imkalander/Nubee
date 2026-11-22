@@ -10,6 +10,14 @@ const SITE={
 };
 const W=[
  {
+  "id": 14,
+  "cat": "Reflexión",
+  "date": "2026-11-22",
+  "title": "Donde quema lo que no se olvida",
+  "excerpt": "No es una tristeza mansa la que se queda cuando uno mira hacia arriba y siente que todo lo importante se le ha ido a una altura donde no alcanzan ni las manos ni la voz. Es un ardor sordo, una…",
+  "html": "<p>No es una tristeza mansa la que se queda cuando uno mira hacia arriba y siente que todo lo importante se le ha ido a una altura donde no alcanzan ni las manos ni la voz. Es un ardor sordo, una quemadura que no echa humo pero deja ceniza en cada hora, un pulso terco que golpea contra las costillas cada vez que el día se apaga y nadie pregunta qué pesa por dentro.</p><p>A veces uno cree que ya domó la tormenta, que ya aprendió a caminar con la cara en alto y el paso firme, pero basta un giro del viento, un recuerdo que vuelve sin pedir permiso o un silencio demasiado largo para que todo se tambalee otra vez. Lo que duele de verdad no es lo que se pierde de golpe, sino lo que se queda flotando, intacto, como una espina clavada en lo más hondo donde no llega el consuelo ni el olvido.</p><p>Hay amores o ausencias que no se van: se transforman en un nudo de hierro envuelto en sombra. Te obligan a mirarte al espejo de madrugada y reconocer que, aun con la garganta apretada y el orgullo roto por dentro, sigues cargando ese mismo cielo lejano sobre los hombros, negándote a soltar del todo lo que te marcó para siempre. Porque hay marcas que no se borran con el tiempo; se vuelven parte del hueso, del aliento y de esa manera feroz y callada de seguir de pie cuando todo parece haberse ido lejos.</p>"
+ },
+ {
   "id": 13,
   "cat": "Relato",
   "date": "2026-11-21",
