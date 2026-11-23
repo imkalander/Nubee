@@ -2,6 +2,8 @@
 const SITE={
   name:"Nubee",
   tagline:"Fragmentos de Recuerdo de otoño",
+  frase:"El mundo nos rompe a todos, y después, algunos se vuelven fuertes en los lugares rotos.",
+  autorFrase:"Ernest Hemingway",
   about:[
     "Cuando un vaso se quiebra, cada pedazo deja de ser parte de algo y pasa a ser un mundo distinto.",
     "Todos guardan la esencia del vaso que fue completo, el código base, pero cada uno tiene su propia forma y su propia historia.",
@@ -9,6 +11,15 @@ const SITE={
   ]
 };
 const W=[
+ {
+  "id": 15,
+  "cat": "Manifiesto",
+  "date": "2026-11-23",
+  "title": "Nubee",
+  "portada": true,
+  "excerpt": "Antes pasaba de largo frente a cosas que hoy me miran de frente. No era ceguera, era falta de tiempo…",
+  "html": "<p>Antes pasaba de largo frente a cosas que hoy me miran de frente.</p><p>No era ceguera, era falta de tiempo, o era que hacía falta que ciertas situaciones me acomodaran los ojos para ver lo que de verdad importaba.</p><p>Los atardeceres no piden permiso, solo cambian el cielo y me recuerdan que soltar la luz no es perderla, es aprender a habitar la transición sin pelearme con la sombra.</p><p>Todo lo que ha pasado se quedó hecho piel y memoria: lo que me dio impulso, lo que me frenó en seco, lo que me hizo dudar y lo que me trajo hasta aquí.</p><p>Brindo por lo vivido y por lo sufrido. Por lo bueno, por lo malo, por lo que dolió y por lo que sanó. Por todo lo que me hizo llegar a este punto donde hoy empieza a respirar NUBEE.</p>"
+ },
  {
   "id": 14,
   "cat": "Reflexión",
