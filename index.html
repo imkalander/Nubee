@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nubee</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=Caveat:wght@400;500&family=La+Belle+Aurore&display=swap">
 <style>
 :root{color-scheme:dark;box-sizing:border-box;--fg:#e9e4d8;--mute:#9b9689;--rule:#47443d;--link:#a9bfd6;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html{scroll-padding-top:env(safe-area-inset-top,0px);background:#000}
@@ -180,6 +180,45 @@ body.secreto #grietas{animation:respira 6s ease-in-out infinite}
 .sobre-pronto{cursor:default;text-align:center}
 .sobre-pronto .hl{font-style:italic;color:var(--gold);font-size:22px;line-height:1.25}
 .sobre-pronto:hover{border-color:rgba(183,155,98,.35)}
+
+/* ===== Cartas: sobres, hojas y tipografía ===== */
+.sobre::after{display:none}
+.sobres{gap:24px}
+.sobre{display:block;padding:80px 16px 22px;text-align:center}
+.sobre>span{display:block}
+.sobre .lacre{position:absolute;top:34px;left:50%;margin-left:-20px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.6))}
+.kick{font-family:'La Belle Aurore','Caveat',cursive;font-size:28px;line-height:1.1;color:var(--gold);margin-bottom:4px}
+.sobre .hl{font-size:20px;line-height:1.2}
+.sobre .meta{margin-top:6px}
+.quemado{position:relative;filter:drop-shadow(0 0 3px rgba(235,110,35,.6)) drop-shadow(0 0 13px rgba(200,60,10,.22))}
+.quemado>.q1,.quemado>.q2,.quemado>.q3{position:absolute;display:block;clip-path:var(--cp,none)}
+.quemado>.q1{inset:0;background:linear-gradient(135deg,#e07a30,#b3380d 55%,#681504);animation:brasa 3.4s ease-in-out infinite}
+.quemado>.q2{inset:4px;background:#0d0603}
+.quemado>.q3{inset:9px;background:radial-gradient(ellipse at 50% 45%,transparent 42%,rgba(40,18,4,.55) 100%),radial-gradient(circle at 20% 25%,rgba(120,80,30,.35),transparent 40%),radial-gradient(circle at 80% 72%,rgba(100,60,20,.3),transparent 45%),linear-gradient(160deg,#c9ae7c,#a98d5c 60%,#8e7345);box-shadow:inset 0 0 36px 6px rgba(30,12,2,.8)}
+@keyframes brasa{0%,100%{opacity:.78}50%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.quemado>.q1{animation:none}}
+.quemado>.q-c{position:relative;display:block;color:#2a1708}
+.sobre.quemado{padding:0;min-height:176px;background:none!important;border:0}
+.sobre.quemado .q-c{padding:46px 26px 36px}
+.sobre.quemado .kick{font-size:58px;color:#3a1f0a}
+.hoja p{font-family:'Caveat','Segoe Script','Bradley Hand',cursive;font-style:normal;font-size:clamp(24px,3.1vw,30px);line-height:1.5;margin:0 0 .9em}
+.hoja h2{font-family:'La Belle Aurore','Caveat',cursive;font-weight:400;font-size:clamp(40px,6.4vw,62px);line-height:1.1;margin:0 0 4px}
+.hoja .meta{font-family:'Caveat',cursive;font-style:normal;font-size:22px;margin-bottom:18px}
+.cnum{font-family:'La Belle Aurore','Caveat',cursive;font-size:clamp(30px,5vw,42px);line-height:1;color:var(--gold);margin-bottom:8px}
+.hoja.quemado{background:none;border:0;box-shadow:none;padding:0}
+.hoja.quemado::before{display:none}
+.hoja.quemado .q-c{padding:clamp(42px,7vw,70px) clamp(44px,8vw,78px) clamp(36px,5vw,54px)}
+.hoja.quemado p,.hoja.quemado h2,.hoja.quemado .cnum{color:#2a1708}
+.hoja.quemado .meta{color:#5b3d1a}
+.cab-d{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:22px}
+.cab-d .cnum{font-size:clamp(56px,11vw,96px);color:#3a1f0a;margin:0}
+.cab-d img{width:clamp(78px,21vw,150px);height:auto;mix-blend-mode:multiply;opacity:.93}
+.cab-d .d1{transform:rotate(-5deg)}
+.cab-d .d2{transform:rotate(4deg)}
+.pie-carta{text-align:center;margin-top:22px}
+.pie-carta .d3{display:block;margin:0 auto;width:min(230px,62%);height:auto;mix-blend-mode:multiply}
+.pie-carta .lacre{filter:drop-shadow(0 3px 6px rgba(0,0,0,.6))}
+.vecinas{display:flex;justify-content:space-between;gap:12px;margin-top:26px}
 </style>
 </head>
 <body>
@@ -244,12 +283,17 @@ const views={
    <div class="orn" aria-hidden="true"><i></i></div>
    ${SEC.intro?`<p class="sintro">${esc(SEC.intro)}</p>`:''}
    <p class="tag ctitulo">Cartas</p>
-   <div class="sobres">${l.length?l.map(c=>`<button class="lnk sobre" data-c="${c.id}"><div class="meta">${c.fecha?fmt(c.fecha):''}</div><div class="hl">${esc(c.titulo)}</div></button>`).join(''):`<div class="sobre sobre-pronto"><div class="hl">${esc(SEC.vacio||'Pronto, las cartas de Roma.')}</div></div>`}</div>
+   <div class="sobres">${l.length?l.map(sobre).join(''):`<div class="sobre sobre-pronto"><div class="hl">${esc(SEC.vacio||'Pronto, las cartas de Roma.')}</div></div>`}</div>
    <p class="salir"><button class="back" data-go="home">Salir</button></p></div>`;
  },
  carta(){
-  const c=SEC.cartas.find(x=>x.id===S.id);
-  return `<div class="page"><button class="back" data-go="secret">Volver a las cartas</button><div class="hoja"><div class="meta">${c.fecha?fmt(c.fecha):''}</div><h2>${esc(c.titulo)}</h2>${c.texto.map(t=>`<p>${esc(t).replace(/\n/g,'<br>')}</p>`).join('')}${c.firma?`<p class="firma">${esc(c.firma)}</p>`:''}</div><div class="orn" aria-hidden="true"><i></i></div></div>`;
+  const L=SEC.cartas,i=L.findIndex(x=>x.id===S.id),c=L[i],q=c.estilo==='quemada',d=c.dibujos||{},num=c.num?`<div class="cnum">${esc(c.num)}</div>`:'';
+  const cab=q&&d.girasol?`<div class="cab-d"><img class="d1" src="${d.girasol}" alt="">${num}<img class="d2" src="${d.cactus}" alt=""></div>`:`${num}${c.titulo?`<h2>${esc(c.titulo)}</h2>`:''}`;
+  const fecha=c.fecha?`<div class="meta">${fmt(c.fecha)}</div>`:'';
+  const pie=q&&d.manzanas?`<img class="d3" src="${d.manzanas}" alt="">`:(c.sello?sello(c.sello,64):'');
+  const cuerpo=`${cab}${fecha}<div class="texto">${c.texto.map(t=>`<p>${esc(t).replace(/\n/g,'<br>')}</p>`).join('')}${c.firma?`<p class="firma">${esc(c.firma)}</p>`:''}</div><div class="pie-carta">${pie}</div>`;
+  const ant=L[i-1],sig=L[i+1];
+  return `<div class="page"><button class="back" data-go="secret">Volver a las cartas</button>${q?`<div class="hoja quemado" data-q="${c.id}"><span class="q1"></span><span class="q2"></span><span class="q3"></span><div class="q-c">${cuerpo}</div></div>`:`<div class="hoja">${cuerpo}</div>`}<div class="vecinas">${ant?`<button class="back" data-c="${ant.id}">Carta anterior</button>`:'<span></span>'}${sig?`<button class="back" data-c="${sig.id}">Carta siguiente</button>`:'<span></span>'}</div><div class="orn" aria-hidden="true"><i></i></div></div>`;
  },
  poems(){
   const l=W.filter(w=>w.tipo==='poema');
@@ -268,6 +312,7 @@ const views={
 
 function render(){
   app.innerHTML=views[S.view]();
+  quemarTodo();document.querySelectorAll('.quemado img').forEach(m=>m.addEventListener('load',quemarTodo));
   document.body.classList.toggle('secreto',S.view==='secret'||S.view==='carta');
   document.documentElement.classList.toggle('secreto',S.view==='secret'||S.view==='carta');
   if(S.view==='secret'||S.view==='carta')dibujarGrietas();
@@ -287,6 +332,32 @@ document.addEventListener('click',e=>{
 });
 qi.addEventListener('input',()=>{S.q=qi.value;S.view='writings';S.id=null;render();});
 
+const BLOB='M'+Array.from({length:96},(_,i)=>{const a=2*Math.PI*i/96,r=28.2+1.3*Math.sin(3*a+1)+.9*Math.sin(5*a+2)+.6*Math.sin(9*a);return(32+r*Math.cos(a)).toFixed(2)+' '+(32+r*Math.sin(a)).toFixed(2)}).join('L')+'Z';
+let _w=0;
+function sello(t,px){
+  const u='w'+(++_w),P=(d,a)=>`<path d="${d}" transform="rotate(${a})"/>`;let g='';
+  if(t==='girasol'){for(let k=0;k<16;k++)g+=P('M0 -9.5C3.6 -13.5 3.8 -20 0 -24.2C-3.8 -20 -3.6 -13.5 0 -9.5Z',k*22.5)+P('M0 -9C2.6 -12 2.8 -16.5 0 -19.5C-2.8 -16.5 -2.6 -12 0 -9Z',11.25+k*22.5);g+='<circle r="9"/>';for(let n=1;n<35;n++){const r=1.35*Math.sqrt(n),a=n*2.39996;g+=`<circle cx="${(r*Math.cos(a)).toFixed(2)}" cy="${(r*Math.sin(a)).toFixed(2)}" r=".4"/>`}}
+  else if(t==='flor'){for(let k=0;k<6;k++)g+=P('M0 -7C5.5 -11 5.5 -21 0 -23.5C-5.5 -21 -5.5 -11 0 -7Z',k*60);g+='<circle r="6"/><circle r="2.6"/>'}
+  else if(t==='sol'){g+='<circle r="8.5"/><circle r="5"/>';for(let k=0;k<16;k++)g+=P(k%2?'M0 -13V-18':'M0 -13V-22',k*22.5)}
+  else if(t==='iman'){g+='<path d="M-14 -17V5A14 14 0 0 0 14 5V-17H6V5A6 6 0 0 1 -6 5V-17Z"/><path d="M-14 -11H-6M6 -11H14"/>'}
+  return `<svg class="lacre" viewBox="0 0 64 64" width="${px}" height="${px}" aria-hidden="true"><defs><radialGradient id="${u}c" cx=".38" cy=".32" r=".8"><stop offset="0" stop-color="#5f2e2b"/><stop offset=".6" stop-color="#4a2220"/><stop offset="1" stop-color="#351615"/></radialGradient><g id="${u}f" fill="none" stroke-linejoin="round">${g}<circle r="26.3"/></g></defs><path d="${BLOB}" fill="url(#${u}c)" stroke="#150605" stroke-width=".6"/><use href="#${u}f" transform="translate(32.6 32.6)" stroke="#7b4642" stroke-opacity=".6" stroke-width=".8"/><use href="#${u}f" transform="translate(32 32)" stroke="#150605" stroke-width=".85"/></svg>`;
+}
+function quemar(el,seed){
+  const w=el.offsetWidth,h=el.offsetHeight;if(!w||!h)return;
+  let s=seed;const r=()=>(s=(s*1664525+1013904223)%4294967296)/4294967296,ax=7/w*100,ay=7/h*100,pts=[];
+  const b=()=>r()<.09?2.2+r()*1.2:.25+r()*1.1;
+  const lado=(len,f)=>{const n=Math.max(40,Math.round(len/5)),m=Math.max(4,Math.round(len/30)),c=Array.from({length:m+1},b);
+    for(let i=0;i<n;i++){const t=i/n*m,k=Math.floor(t),u=(1-Math.cos((t-k)*Math.PI))/2;pts.push(f(i/n,c[k]*(1-u)+c[k+1]*u+(r()-.5)*.3))}};
+  lado(w,(t,v)=>[t*100,v*ay]);lado(h,(t,v)=>[100-v*ax,t*100]);lado(w,(t,v)=>[100-t*100,100-v*ay]);lado(h,(t,v)=>[v*ax,100-t*100]);
+  el.style.setProperty('--cp','polygon('+pts.map(p=>p[0].toFixed(2)+'% '+p[1].toFixed(2)+'%').join(',')+')');
+}
+const quemarTodo=()=>document.querySelectorAll('.quemado').forEach(e=>quemar(e,+e.dataset.q*97+13));
+addEventListener('resize',quemarTodo);
+function sobre(c){
+  const q=c.estilo==='quemada',t=`${c.num?`<span class="kick">${esc(c.num)}</span>`:''}${c.titulo?`<span class="hl">${esc(c.titulo)}</span>`:''}${c.fecha?`<span class="meta">${fmt(c.fecha)}</span>`:''}`;
+  return q?`<button class="lnk sobre quemado" data-c="${c.id}" data-q="${c.id}"><span class="q1"></span><span class="q2"></span><span class="q3"></span><span class="q-c">${t}</span></button>`
+          :`<button class="lnk sobre" data-c="${c.id}">${c.sello?sello(c.sello,40):''}${t}</button>`;
+}
 function dibujarGrietas(){
   const host=document.getElementById('grietas');if(host.dataset.listo)return;host.dataset.listo='1';
   let seed=11;const r=()=>(seed=(seed*1664525+1013904223)%4294967296)/4294967296;
