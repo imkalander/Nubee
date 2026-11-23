@@ -219,6 +219,11 @@ body.secreto #grietas{animation:respira 6s ease-in-out infinite}
 .pie-carta .d3{display:block;margin:0 auto;width:min(230px,62%);height:auto;mix-blend-mode:multiply}
 .pie-carta .lacre{filter:drop-shadow(0 3px 6px rgba(0,0,0,.6))}
 .vecinas{display:flex;justify-content:space-between;gap:12px;margin-top:26px}
+
+/* ===== Carta 01: misma hoja que las demás, con sus dibujos ===== */
+.cab-d .cnum{color:var(--gold)}
+.cab-d img{mix-blend-mode:normal;opacity:.92}
+.pie-carta .d3{mix-blend-mode:normal;opacity:.95}
 </style>
 </head>
 <body>
@@ -287,13 +292,13 @@ const views={
    <p class="salir"><button class="back" data-go="home">Salir</button></p></div>`;
  },
  carta(){
-  const L=SEC.cartas,i=L.findIndex(x=>x.id===S.id),c=L[i],q=c.estilo==='quemada',d=c.dibujos||{},num=c.num?`<div class="cnum">${esc(c.num)}</div>`:'';
-  const cab=q&&d.girasol?`<div class="cab-d"><img class="d1" src="${d.girasol}" alt="">${num}<img class="d2" src="${d.cactus}" alt=""></div>`:`${num}${c.titulo?`<h2>${esc(c.titulo)}</h2>`:''}`;
+  const L=SEC.cartas,i=L.findIndex(x=>x.id===S.id),c=L[i],d=c.dibujos||{},num=c.num?`<div class="cnum">${esc(c.num)}</div>`:'';
+  const cab=d.girasol?`<div class="cab-d"><img class="d1" src="${d.girasol}" alt="">${num}<img class="d2" src="${d.cactus}" alt=""></div>`:`${num}${c.titulo?`<h2>${esc(c.titulo)}</h2>`:''}`;
   const fecha=c.fecha?`<div class="meta">${fmt(c.fecha)}</div>`:'';
-  const pie=q&&d.manzanas?`<img class="d3" src="${d.manzanas}" alt="">`:(c.sello?sello(c.sello,64):'');
+  const pie=d.manzanas?`<img class="d3" src="${d.manzanas}" alt="">`:(c.sello?sello(c.sello,64):'');
   const cuerpo=`${cab}${fecha}<div class="texto">${c.texto.map(t=>`<p>${esc(t).replace(/\n/g,'<br>')}</p>`).join('')}${c.firma?`<p class="firma">${esc(c.firma)}</p>`:''}</div><div class="pie-carta">${pie}</div>`;
   const ant=L[i-1],sig=L[i+1];
-  return `<div class="page"><button class="back" data-go="secret">Volver a las cartas</button>${q?`<div class="hoja quemado" data-q="${c.id}"><span class="q1"></span><span class="q2"></span><span class="q3"></span><div class="q-c">${cuerpo}</div></div>`:`<div class="hoja">${cuerpo}</div>`}<div class="vecinas">${ant?`<button class="back" data-c="${ant.id}">Carta anterior</button>`:'<span></span>'}${sig?`<button class="back" data-c="${sig.id}">Carta siguiente</button>`:'<span></span>'}</div><div class="orn" aria-hidden="true"><i></i></div></div>`;
+  return `<div class="page"><button class="back" data-go="secret">Volver a las cartas</button><div class="hoja">${cuerpo}</div><div class="vecinas">${ant?`<button class="back" data-c="${ant.id}">Carta anterior</button>`:'<span></span>'}${sig?`<button class="back" data-c="${sig.id}">Carta siguiente</button>`:'<span></span>'}</div><div class="orn" aria-hidden="true"><i></i></div></div>`;
  },
  poems(){
   const l=W.filter(w=>w.tipo==='poema');
