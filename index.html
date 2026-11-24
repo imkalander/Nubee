@@ -242,6 +242,25 @@ body.secreto #grietas{animation:respira 6s ease-in-out infinite}
 .epigrafe p::before{content:"“";color:var(--gold)}
 .epigrafe p::after{content:"”";color:var(--gold)}
 .epigrafe cite{display:block;font-style:italic;font-size:19px;color:var(--gold)}
+
+/* ===== Portada: el vaso roto ===== */
+.vitral-wrap{margin:34px auto 0}
+.vitral{position:relative;margin:0 auto;overflow:hidden;background:radial-gradient(ellipse 55% 70% at var(--ix,42%) var(--iy,45%),rgba(255,226,170,.18),rgba(255,226,170,.04) 55%,transparent 80%),#070605;box-shadow:0 0 0 1px rgba(183,155,98,.25),0 30px 80px rgba(0,0,0,.6)}
+.vitral svg{position:absolute;left:0;top:0;pointer-events:none}
+.astilla{position:absolute;left:0;top:0;width:100%;height:100%;border:0;padding:0;margin:0;background:rgba(255,240,210,var(--t,.03));color:var(--fg);font:inherit;text-align:center;cursor:pointer;animation:cae .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d,0s);transition:background .35s}
+div.astilla,.astilla.vacio{cursor:default}
+button.astilla:hover,button.astilla:focus-visible{background:rgba(255,236,200,.16)}
+@keyframes cae{from{opacity:0;transform:translateY(-12px) scale(1.02)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.astilla{animation:none}}
+.at{position:absolute;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:hidden;line-height:1.28}
+.at .eti{font-family:'IM Fell English',Georgia,serif;font-style:italic;color:var(--gold);font-size:1.45em;line-height:1.1}
+.at .sub{font-size:.66em;color:var(--mute);margin-top:.35em;font-style:italic}
+.at .txt{font-style:italic;text-shadow:0 1px 8px #000}
+.at .src{font-size:.62em;color:var(--gold);margin-top:.5em;font-style:italic}
+.at.ep q,.astilla.ep .at q{font-family:'IM Fell English',Georgia,serif;font-style:italic;quotes:"“" "”";font-size:1.05em}
+.astilla.ep .at cite{font-size:.62em;color:var(--gold);margin-top:.55em;font-style:italic}
+
+.astilla.vacio{pointer-events:none}
 </style>
 </head>
 <body>
@@ -284,8 +303,8 @@ const views={
  home(){
   const f=W.find(w=>w.portada),R=W.filter(w=>!w.portada);
   const mm=f&&f.html.match(/<p>(.)/),dc=mm&&/[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]/.test(mm[1]);
-  const top=`${f?`<section class="manifiesto"><h2 class="mtitulo">${esc(f.title)}</h2><div class="cuerpo${dc?' dc':''}">${f.html}</div></section>`:''}${SITE.frase?`<blockquote class="epigrafe"><p>${esc(SITE.frase)}</p>${SITE.autorFrase?`<cite>— ${esc(SITE.autorFrase)}</cite>`:''}</blockquote>`:''}${f||SITE.frase?'<div class="orn" aria-hidden="true"><i></i></div>':''}`;
-  return `${top}<div class="choose"><button data-go="writings">Leer los escritos</button><button data-go="poems">Leer los poemas</button><button data-go="search">Buscar un escrito</button><button data-go="photos">Ver las fotos</button></div>
+  const man=f?`<section class="manifiesto"><h2 class="mtitulo">${esc(f.title)}</h2><div class="cuerpo${dc?' dc':''}">${f.html}</div></section><div class="orn" aria-hidden="true"><i></i></div>`:'';
+  return `<section class="vitral-wrap"><div id="vitral" class="vitral" role="region" aria-label="Portada"></div></section>${man}
   <div class="cols">
    <div class="col"><h2 class="sec">La historia</h2>${ps(SITE.about)}</div>
    <div class="col">${wBtn(R[0],'lead')}${R.slice(1,3).map(w=>`<div class="sub">${wBtn(w)}</div>`).join('')}</div>
@@ -340,6 +359,7 @@ const views={
 function render(){
   app.innerHTML=views[S.view]();
   const cl=document.getElementById('clave');if(cl)cl.focus();
+  if(S.view==='home')construirVitral();
   quemarTodo();document.querySelectorAll('.quemado img').forEach(m=>m.addEventListener('load',quemarTodo));
   document.body.classList.toggle('secreto',S.view==='secret'||S.view==='carta');
   document.documentElement.classList.toggle('secreto',S.view==='secret'||S.view==='carta');
@@ -401,6 +421,58 @@ async function intentar(){
 }
 document.addEventListener('click',e=>{if(e.target.id==='abrir')intentar()});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='clave')intentar()});
+function clip(P,a,b,c){const o=[];for(let i=0;i<P.length;i++){const p=P[i],q=P[(i+1)%P.length],fp=a*p[0]+b*p[1]-c,fq=a*q[0]+b*q[1]-c;if(fp<=0)o.push(p);if((fp<0&&fq>0)||(fp>0&&fq<0)){const t=fp/(fp-fq);o.push([p[0]+t*(q[0]-p[0]),p[1]+t*(q[1]-p[1])])}}return o}
+function celdas(pts,W,H){return pts.map((p,i)=>{let P=[[0,0],[W,0],[W,H],[0,H]];pts.forEach((q,j)=>{if(i!==j)P=clip(P,q[0]-p[0],q[1]-p[1],(q[0]*q[0]+q[1]*q[1]-p[0]*p[0]-p[1]*p[1])/2)});return P})}
+const areaP=P=>{let s=0;for(let i=0;i<P.length;i++){const p=P[i],q=P[(i+1)%P.length];s+=p[0]*q[1]-q[0]*p[1]}return s/2};
+function centro(P){const A=areaP(P);let x=0,y=0;for(let i=0;i<P.length;i++){const p=P[i],q=P[(i+1)%P.length],f=p[0]*q[1]-q[0]*p[1];x+=(p[0]+q[0])*f;y+=(p[1]+q[1])*f}return[x/(6*A),y/(6*A)]}
+function dentro(P,x,y){let r=false;for(let i=0,j=P.length-1;i<P.length;j=i++){const a=P[i],b=P[j];if((a[1]>y)!==(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])r=!r}return r}
+function rectEn(P,ar){const[cx,cy]=centro(P),xs=P.map(p=>p[0]),bw=Math.max(...xs)-Math.min(...xs);
+  for(let w=bw;w>=70;w-=6){const h=w/ar;if([[-1,-1],[1,-1],[1,1],[-1,1]].every(([a,b])=>dentro(P,cx+a*(w/2+5),cy+b*(h/2+5))))return{x:cx-w/2,y:cy-h/2,w,h}}return null}
+function fragmentos(n){
+  const t=h=>h.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim(),out=[];
+  for(const w of W.filter(w=>!w.portada).sort(()=>Math.random()-.5)){
+    const ss=(t(w.html).match(/[^.!?…]+[.!?…]+/g)||[]).map(x=>x.trim()).filter(x=>x.length>=45&&x.length<=115&&/^[A-ZÁÉÍÓÚÑ¿¡“«]/.test(x)&&(x.match(/\b(the|and|to|of|you|he|his|my|is|it)\b/gi)||[]).length<2);
+    if(ss.length){out.push({w,s:ss[Math.floor(Math.random()*ss.length)]});if(out.length>=n)break}
+  }return out;
+}
+let _vw=0;const mov0=()=>_vw<700;
+function construirVitral(){
+  const host=document.getElementById('vitral');if(!host)return;
+  const W0=host.parentElement.clientWidth,mov=W0<700,H0=mov?Math.round(W0*1.8):Math.round(Math.min(Math.max(W0*.55,500),660));_vw=W0;
+  host.style.height=H0+'px';
+  let sd=7;const r=()=>(sd=(sd*1664525+1013904223)%4294967296)/4294967296;
+  const cols=mov?2:4,rows=mov?3:3,pts=[];
+  for(let i=0;i<cols;i++)for(let j=0;j<rows;j++)pts.push([(i+.5+(r()-.5)*.7)*W0/cols,(j+.5+(r()-.5)*.7)*H0/rows]);
+  const ix=W0*(mov?.5:.42),iy=H0*.45;
+  for(let k=0;k<(mov?3:7);k++){const a=r()*6.283,d=18+r()*(mov?70:90);pts.push([ix+Math.cos(a)*d,iy+Math.sin(a)*d])}
+  const info=celdas(pts,W0,H0).filter(P=>P.length>2&&Math.abs(areaP(P))>80).map(P=>({P,A:Math.abs(areaP(P)),c:centro(P)})).sort((a,b)=>b.A-a.A);
+  const mejor=info.slice(0,6).map(x=>({x,r:rectEn(x.P,1)})).filter(o=>o.r).sort((a,b)=>b.r.w*b.r.h-a.r.w*a.r.h)[0],ep=mov?(mejor?mejor.x:info[0]):info.slice(0,3).sort((a,b)=>Math.hypot(a.c[0]-ix,a.c[1]-iy)-Math.hypot(b.c[0]-ix,b.c[1]-iy))[0],resto=info.filter(x=>x!==ep);
+  const nE=W.filter(w=>w.tipo!=='poema'&&!w.portada).length,nP=W.filter(w=>w.tipo==='poema').length;
+  const sec=[['writings','Escritos',nE+' textos'],['poems','Poemas',nP+' poemas'],['photos','Fotos',P.length?P.length+' fotos':'Pronto'],['about','La historia','El vaso quebrado']];
+  const fr=fragmentos(7);let k=0,fi=0,html='';
+  info.forEach((x,i)=>{
+    const poly='polygon('+x.P.map(p=>p[0].toFixed(1)+'px '+p[1].toFixed(1)+'px').join(',')+')';
+    let attr='',txt='',cls='astilla',rc=null,fs=0;
+    if(x===ep&&SITE.frase){rc=rectEn(x.P,mov?1:1.5);if(rc){cls+=' ep';txt=`<q>${esc(SITE.frase)}</q>${SITE.autorFrase?`<cite>— ${esc(SITE.autorFrase)}</cite>`:''}`;fs=1}}
+    else{const j=resto.indexOf(x);
+      if(j>=0&&j<4){rc=rectEn(x.P,mov?1.3:1.9);if(rc){const q=sec[j];attr=`data-go="${q[0]}"`;txt=`<span class="eti">${q[1]}</span><span class="sub">${q[2]}</span>`}}
+      else if(fi<fr.length&&(rc=rectEn(x.P,mov?1.1:1.7))&&rc.w>=(mov?100:110)&&rc.h>=(mov?80:56)){const q=fr[fi++];attr=`data-w="${q.w.id}"`;txt=`<span class="txt">${esc(q.s)}</span><span class="src">${esc(q.w.title.length>48?q.w.title.slice(0,46)+'…':q.w.title)}</span>`}
+      else rc=null}
+    const ok=rc&&txt;
+    const tag=attr?'button':'div';
+    html+=`<${tag} class="${cls}${ok?'':' vacio'}" ${attr} style="clip-path:${poly};--t:${(.014+r()*.05).toFixed(3)};--d:${(i*.05).toFixed(2)}s">${ok?`<span class="at" data-len="${txt.replace(/<[^>]+>/g,'').length}" style="left:${rc.x.toFixed(0)}px;top:${rc.y.toFixed(0)}px;width:${rc.w.toFixed(0)}px;height:${rc.h.toFixed(0)}px">${txt}</span>`:''}</${tag}>`;
+  });
+  const bordes=info.map(x=>'M'+x.P.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join('L')+'Z').join('');
+  host.style.setProperty('--ix',(ix/W0*100).toFixed(1)+'%');host.style.setProperty('--iy',(iy/H0*100).toFixed(1)+'%');
+  host.innerHTML=html+`<svg viewBox="0 0 ${W0} ${H0}" width="${W0}" height="${H0}" aria-hidden="true"><defs><radialGradient id="vg" gradientUnits="userSpaceOnUse" cx="${ix}" cy="${iy}" r="${Math.max(W0,H0)*.8}"><stop offset="0" stop-color="#fff4d8"/><stop offset=".5" stop-color="#e9b45c" stop-opacity=".75"/><stop offset="1" stop-color="#b79b62" stop-opacity=".4"/></radialGradient><filter id="vb" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="4"/></filter></defs><path d="${bordes}" fill="none" stroke="url(#vg)" stroke-width="7" opacity=".3" filter="url(#vb)"/><path d="${bordes}" fill="none" stroke="url(#vg)" stroke-width="2" opacity=".75"/><path d="${bordes}" fill="none" stroke="#fff4d8" stroke-opacity=".55" stroke-width=".7"/></svg>`;
+  host.querySelectorAll('.at').forEach(a=>{const w=a.offsetWidth,h=a.offsetHeight,len=+a.dataset.len;let fs=Math.max(mov0()?13:11,Math.min(28,Math.sqrt(w*h*.55/(len*.52))));a.style.fontSize=fs+'px';
+    for(let n=0;n<18&&a.scrollHeight>h+1&&fs>9;n++){fs*=.93;a.style.fontSize=fs+'px'}});
+  const viejo=document.getElementById('epigrafe-extra');if(viejo)viejo.remove();
+  host.querySelectorAll('.at').forEach(a=>{if(a.scrollHeight>a.offsetHeight+1){const p=a.parentElement;
+    if(p.classList.contains('ep')&&SITE.frase){host.parentElement.insertAdjacentHTML('afterend',`<blockquote id="epigrafe-extra" class="epigrafe"><p>${esc(SITE.frase)}</p>${SITE.autorFrase?`<cite>— ${esc(SITE.autorFrase)}</cite>`:''}</blockquote>`)}
+    a.remove();p.classList.add('vacio');p.removeAttribute('data-go');p.removeAttribute('data-w')}});
+}
+let _vt;addEventListener('resize',()=>{clearTimeout(_vt);_vt=setTimeout(()=>{if(S.view==='home'){const w=document.getElementById('vitral');if(w&&Math.abs(w.parentElement.clientWidth-_vw)>40)construirVitral()}},200)});
 function dibujarGrietas(){
   const host=document.getElementById('grietas');if(host.dataset.listo)return;host.dataset.listo='1';
   let seed=11;const r=()=>(seed=(seed*1664525+1013904223)%4294967296)/4294967296;
